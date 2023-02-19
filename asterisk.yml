@@ -8,7 +8,7 @@
         name: asterisk
         state: present
     - name: Hapus file
-      ansible.builtin.file:
+      file:
         path: /etc/asterisk/extension.conf
         path: /etc/asterisk/sip.conf
         state: absent

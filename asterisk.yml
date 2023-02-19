@@ -4,17 +4,8 @@
   vars:
     repo: "git@github.com:imsalyunus/asterisk.git"
     dest: "/etc/asterisk"
-    sshkey: "/.ssh/id_rsa"
   tasks:
     - name: download
       ansible.builtin.yum:
         name: git
         states: present
-        update_chace: true
-      become: true
-          
-    - name: download repo
-      ansible.builtin.git:
-        repo: "{{ repo }}"
-        dest: "{{ dest }}"
-        key_file: "{{ sshkey }}"

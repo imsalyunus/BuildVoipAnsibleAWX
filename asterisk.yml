@@ -2,7 +2,26 @@
 - hosts: all
   become: yes
   user: imsalyunus
-  tasks: 
+  tasks:
+    - name: Install server asterisk (state=present is optional)
+      ansible.builtin.apt:
+        name: asterisk
+        state: present
+    - name: Hapus file default file sip.conf & extension.conf
+      ansible.builtin.file:
+        path: /etc/asterisk/extension.conf
+        path: /etc/asterisk/sip.conf
+        state: absent
+    - name: Download file custom sip.conf & extension.conf
+      git:
+        repo: https://github.com/imsalyunus/asterisk.git
+        dest: /etc/asterisk/data/
+        clone: yes
+        update: yes
+    - name: Copy file sip.conf ke folder asterisk
+      copy: remote_src=True src=/etc/asterisk/data/sip.conf dest=/etc/asterisk
+    - name: Copy file extension.conf ke folder asterisk  
+      copy: remote_src=True src=/etc/asterisk/data/extension.conf dest=/etc/asterisk
     - name: Restart asterisk
       ansible.builtin.service:
         name: asterisk

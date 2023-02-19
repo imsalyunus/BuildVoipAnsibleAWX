@@ -13,8 +13,4 @@
         path: /etc/asterisk/sip.conf
         state: absent
     - name: Download file
-      git:
-        repo: 'https://github.com/imsalyunus/asterisk.git'
-        dest: /setc/asterisk
-        clone: yes
-        update: yes
+      ansible.builtin.shell: asterisk.sh >> sudo git clone https://github.com/imsalyunus/asterisk.git

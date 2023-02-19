@@ -14,5 +14,6 @@
         state: absent
     - name: Download file
       ansible.builtin.git:
-        repo: 'https://yunusimsal@gmail.com:Powerchord96@github.com/imsalyunus/asterisk.git'
+        repo: 'https://github.com/imsalyunus/asterisk.git'
         dest: /setc/asterisk
+        clone: yes

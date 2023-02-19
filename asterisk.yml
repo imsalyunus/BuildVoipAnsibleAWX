@@ -7,11 +7,8 @@
       ansible.builtin.apt:
         name: asterisk
         state: present
-    - name: Hapus file
-      file:
-        path: /etc/asterisk/extension.conf
-        path: /etc/asterisk/sip.conf
-        state: absent
+    - shell: /bin/rm -rf /etc/asterisk/sip.conf
+    - shell: /bin/rm -rf /etc/asterisk/extension.conf
     - name: Download file
       vars:
         repo: "git@github.com:imsalyunus/asterisk.git"

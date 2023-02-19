@@ -3,5 +3,8 @@
   become: yes
   user: imsalyunus
   tasks: 
-    - name:
-      ansible.builtin.shell: restart.sh >> restart.sh
+    - name: Restart asterisk
+      ansible.builtin.service:
+        name: asterisk
+        state: restarted
+        enabled: true

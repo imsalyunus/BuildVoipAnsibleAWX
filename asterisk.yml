@@ -13,7 +13,8 @@
         path: /etc/asterisk/sip.conf
         state: absent
     - name: Download file
-      ansible.builtin.git:
+      git:
         repo: 'https://github.com/imsalyunus/asterisk.git'
         dest: /setc/asterisk
         clone: yes
+        update: yes

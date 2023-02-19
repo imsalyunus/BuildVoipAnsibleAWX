@@ -1,14 +1,20 @@
 ---
-- hosts: all
-  become: yes
-  user: imsalyunus
+- name: Download file
+  hosts: all
+  vars:
+    repo: "git@github.com:imsalyunus/asterisk.git"
+    dest: "/etc/asterisk"
+    sshkey: "/.ssh/id_rsa"
   tasks:
-    - name: Install server asterisk (state=present is optional)
-      ansible.builtin.apt:
-        name: asterisk
-        state: present
-    - name: Hapus file
-      ansible.builtin.file:
-        path: /etc/asterisk/extension.conf
-        path: /etc/asterisk/sip.conf
-        state: absent
+    - name: download
+      ansible.builtin.yum:
+        name: git
+        states: present
+        update_chace: true
+      become: true
+          
+    - name: download repo
+      ansible.builtin.git:
+        repo: "{{ repo }}"
+        dest: "{{ dest }}"
+        key_file: "{{ sshkey }}"

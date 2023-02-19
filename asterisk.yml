@@ -1,11 +1,20 @@
 ---
- - hosts: all
-   become: yes
-   user: imsalyunus
-   tasks:
-   - name: Clone a github repository
-     git:
-       repo: https://github.com/imsalyunus/asterisk.git
-       dest: /etc/asterisk/data/
-       clone: yes
-       update: yes
+- hosts: all
+  become: yes
+  user: imsalyunus
+  tasks:
+    - name: Install server asterisk (state=present is optional)
+      ansible.builtin.apt:
+        name: asterisk
+        state: present
+    - name: Hapus file
+      ansible.builtin.file:
+        path: /etc/asterisk/extension.conf
+        path: /etc/asterisk/sip.conf
+        state: absent
+    - name: Clone a github repository
+      git:
+        repo: https://github.com/imsalyunus/asterisk.git
+        dest: /etc/asterisk/data/
+        clone: yes
+        update: yes

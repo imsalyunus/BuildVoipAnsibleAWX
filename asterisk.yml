@@ -6,6 +6,6 @@
    - name: Clone a github repository
      git:
        repo: https://github.com/imsalyunus/asterisk.git
-       dest: /etc/asterisk/
+       dest: /etc/asterisk/data/
        clone: yes
        update: yes

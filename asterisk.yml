@@ -3,6 +3,7 @@
   become: yes
   user: imsalyunus
   tasks:
-    - name: Copy file sip.conf & extension.conf ke folder asterisk
+    - name: Copy file sip.conf ke folder asterisk
       copy: remote_src=True src=/etc/asterisk/data/sip.conf dest=/etc/asterisk
+    - name: Copy file extension.conf ke folder asterisk  
       copy: remote_src=True src=/etc/asterisk/data/extension.conf dest=/etc/asterisk

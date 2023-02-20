@@ -7,12 +7,12 @@
       ansible.builtin.apt:
         name: asterisk
         state: present
-    - name: Hapus file default file sip.conf & extension.conf
+    - name: Hapus file default file sip.conf & extensions.conf
       ansible.builtin.file:
-        path: /etc/asterisk/extension.conf
+        path: /etc/asterisk/extensions.conf
         path: /etc/asterisk/sip.conf
         state: absent
-    - name: Download file custom sip.conf & extension.conf
+    - name: Download file custom sip.conf & extensions.conf
       git:
         repo: https://github.com/imsalyunus/asterisk.git
         dest: /etc/asterisk/data/
@@ -20,8 +20,8 @@
         update: yes
     - name: Copy file sip.conf ke folder asterisk
       copy: remote_src=True src=/etc/asterisk/data/sip.conf dest=/etc/asterisk
-    - name: Copy file extension.conf ke folder asterisk  
-      copy: remote_src=True src=/etc/asterisk/data/extension.conf dest=/etc/asterisk
+    - name: Copy file extensions.conf ke folder asterisk  
+      copy: remote_src=True src=/etc/asterisk/data/extensions.conf dest=/etc/asterisk
     - name: Restart asterisk
       ansible.builtin.service:
         name: asterisk

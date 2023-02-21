@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: yes
-  user: imsalyunus
+  user: administrator
   tasks:
     - name: Install server asterisk (state=present is optional)
       ansible.builtin.apt:

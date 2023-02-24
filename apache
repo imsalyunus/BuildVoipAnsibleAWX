@@ -1,0 +1,29 @@
+---
+- name: Install web server
+hosts: centos
+gather_facts: true
+tags: [httpd]
+ 
+tasks:
+- name: Update the software package repository
+yum:
+name: '*'
+update_cache: yes
+ 
+- name: Install HTTP packages
+package:
+name: "{{ item }}"
+state: latest
+with_items:
+- wget
+- nano
+- httpd
+- httpd-devel
+ 
+- name: Start the httpd server
+service:
+name: httpd
+state: started
+ 
+- wait_for:
+port: 80

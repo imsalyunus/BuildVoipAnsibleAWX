@@ -3,9 +3,6 @@
   become: yes
   user: administrator
   tasks:
-    - name: collect facts about system services
-      service_facts:
-      register: services_state
-    - name: Debug
-      debug:
-        var: services_state
+    - name: Induce an exception to see what happens
+      ansible.builtin.ping:
+        data: crash

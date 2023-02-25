@@ -3,16 +3,6 @@
   become: yes
   user: administrator
   tasks:
-    - name: Server test
-      hosts: "192.168.243.83"
-      connection: local
-      gather_facts: no
-      vars:
-        ism:
-          host: "192.168.243.83"
-          username: "administrator"
-          password: "admin"
-  tasks:
     - name: Get server status information
       inspur.sm.server_info:
         provider: "192.168.243.83"

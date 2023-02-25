@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  user: administrator
+  tasks:
+    - name: Uninstall Asteriks
+      apt:
+        pkg: tig
+        state: absent
+      become: true

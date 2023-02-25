@@ -1,7 +1,0 @@
----
-- hosts: all
-  become: yes
-  user: administrator
-  tasks:
-    - name: Induce an exception to see what happens
-      ansible.builtin.ping:

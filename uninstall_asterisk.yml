@@ -8,3 +8,7 @@
         pkg: asterisk
         state: absent
       become: true
+    - name: Remove directory
+      file:
+        path: /etc/asterisk
+        state: absent

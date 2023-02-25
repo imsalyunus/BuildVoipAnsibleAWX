@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  user: administrator
+  tasks:
+    - name: Reboot the server
+      vmware.vmware_rest.vcenter_vm_power_info:
+        vm: '{{ Server Client }}'
+      register: _result

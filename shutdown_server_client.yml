@@ -5,5 +5,4 @@
   user: administrator
   tasks:
     - name: shutdown
-      command: /sbin/shutdown -h now
-      sudo: yes
+      community.general.shutdown:

@@ -3,10 +3,5 @@
   become: yes
   user: administrator
   tasks:
-    - name: Check Stats/sar for Servers
-      hosts: all
-      gather_facts: True
-      become: yes
-      roles:
-        - check_stats
-        - check_uptime
+    - wait_for: host=192.168.87.100 port=80 timeout=1
+    - debug: msg=ok

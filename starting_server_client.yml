@@ -4,6 +4,6 @@
   user: administrator
   tasks:
     - name: Reboot the server
-      vmware.vmware_rest.vcenter_vm_power_info:
-        vm: '{{ Server Client }}'
-      register: _result
+      vmware.vmware_rest.vcenter_vm_power:
+        state: start
+        vm: 'Server Client'

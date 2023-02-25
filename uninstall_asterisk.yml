@@ -5,6 +5,6 @@
   tasks:
     - name: Uninstall Asteriks
       apt:
-        pkg: tig
+        pkg: asterisk
         state: absent
       become: true

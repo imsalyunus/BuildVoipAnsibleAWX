@@ -1,9 +1,0 @@
----
-- hosts: all
-  become: yes
-  user: administrator
-  tasks:
-    - name: Reboot the server
-      vmware.vmware_rest.vcenter_vm_power:
-        state: start
-        vm: 'Server Client'

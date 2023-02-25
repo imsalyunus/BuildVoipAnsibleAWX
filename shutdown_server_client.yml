@@ -7,4 +7,4 @@
     - name: Shut down a machine with shutdown command in unusual place
       community.general.shutdown:
         search_paths:
-         - /usr/sbin/shutdown now
+         - '/usr/sbin/shutdown now'

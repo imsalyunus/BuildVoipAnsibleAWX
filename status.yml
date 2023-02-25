@@ -2,9 +2,6 @@
 - hosts: all
   become: yes
   user: administrator
-  tasks:
-    - name: Check Stats/sar for Servers
-      gather_facts: True
-      roles:
-        - check_stats
-        - check_uptime
+  roles:
+    - check_stats
+    - check_uptime

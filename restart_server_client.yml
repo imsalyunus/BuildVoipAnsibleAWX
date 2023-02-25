@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  user: administrator
+  tasks:
+    - name: Restart server
+      ansible.builtin.command: sudo reboot

@@ -2,9 +2,11 @@
 - hosts: all
   become: yes
   user: administrator
-  connection: local
-  gather_facts: no
   tasks:
-    - name: Get server status information
-      inspur.sm.server_info:
-        provider: "192.168.243.83"
+    - name: collect facts about system services
+      service_facts:
+      register: services_state
+
+    - name: Debug
+      debug:
+      var: services_state

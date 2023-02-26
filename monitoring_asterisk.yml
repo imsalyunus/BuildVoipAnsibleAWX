@@ -4,7 +4,7 @@
   user: administrator
   tasks:
     - name: Get active users
-      shell: asterisk -rx "core show channels" | grep "active channel" | awk '{print $1}'
+      shell: asterisk -rx "core show channels" | grep "active channel"
       register: active_users
     - name: Show list of active users on Asterisk
       debug:

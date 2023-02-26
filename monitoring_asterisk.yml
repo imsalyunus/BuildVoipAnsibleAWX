@@ -13,3 +13,5 @@
       shell: asterisk -rx "core show uptime"
       register: asterisk_status
     - name: Print Asterisk status
+      debug:
+        msg: "Asterisk is {{ 'not ' if asterisk_status.stdout_lines[0] == 'Unable to connect to remote asterisk (does /var/run/asterisk/asterisk.ctl exist?)' else '' }}running."

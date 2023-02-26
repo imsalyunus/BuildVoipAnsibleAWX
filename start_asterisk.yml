@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  user: administrator
+  tasks:
+    - name: Menyalakan asterisk
+      systemd:
+        name: asterisk
+        state: started

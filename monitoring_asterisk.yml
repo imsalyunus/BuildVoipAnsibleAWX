@@ -9,3 +9,9 @@
     - name: Show list of active users on Asterisk
       debug:
         var: active_users.stdout_lines
+    - name: Get IP addresses of active users on Asterisk
+      set_fact:
+        active_user_ips: "{{ active_users.stdout_lines | select('match', '^\\d+\\s+') | map('split', ' :') | map('last') | map('split', '@') | map('first') | list }}"
+    - name: Show IP addresses of active users on Asterisk
+      debug:
+        var: active_user_ips

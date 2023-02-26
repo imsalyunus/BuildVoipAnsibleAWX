@@ -12,7 +12,5 @@
     - name: Melihat user yang aktif
       shell: asterisk -rx 'sip show peers'
       register: active_users
-    - name: Show list of active users on Asterisk
       debug:
         var: active_users.stdout_lines
-    

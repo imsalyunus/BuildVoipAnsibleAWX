@@ -3,8 +3,8 @@
   become: yes
   user: administrator
   tasks:
-    - name: Get list of active users on Asterisk
-      shell: asterisk -rx 'sip show users'
+    - name: Get active users
+      shell: asterisk -rx "core show channels" | grep "active channel" | awk '{print $1}'
       register: active_users
     - name: Show list of active users on Asterisk
       debug:

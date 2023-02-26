@@ -3,13 +3,13 @@
   become: yes
   user: administrator
   tasks:
-    - name: Get Asterisk status
+    - name: Melihat berapa lamanya waktu asterisk berjalan
       shell: asterisk -rx "core show uptime"
       register: asterisk_status
-    - name: Print Asterisk status
+    - name: Mengecek status asterisk aktif atau tidak
       debug:
         msg: "Asterisk is {{ 'not ' if asterisk_status.stdout_lines[0] == 'Unable to connect to remote asterisk (does /var/run/asterisk/asterisk.ctl exist?)' else '' }}running."
-    - name: Get active users
+    - name: Melihat user yang aktif
       shell: asterisk -rx 'sip show peers'
       register: active_users
     - name: Show list of active users on Asterisk

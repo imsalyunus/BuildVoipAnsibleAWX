@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  user: administrator
+  tasks:
+    - name: Mematikan server asterisk
+      systemd:
+        name: asterisk
+        state: stopped

@@ -3,7 +3,7 @@
   become: yes
   user: administrator
   tasks:
-    - name: Mematikan server asterisk
+    - name: Mematikan asterisk
       systemd:
         name: asterisk
         state: stopped

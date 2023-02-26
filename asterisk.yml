@@ -4,7 +4,7 @@
   user: administrator
   tasks:
     - name: Install server asterisk
-      ansible.builtin.apt:
+      apt:
         name: asterisk
         state: present
     - name: Hapus file default file sip.conf & extensions.conf

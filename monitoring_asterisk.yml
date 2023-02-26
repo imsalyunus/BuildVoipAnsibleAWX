@@ -3,15 +3,16 @@
   become: yes
   user: administrator
   tasks:
+    - name: Print Asterisk status
+      debug:
+        msg: "Asterisk is {{ 'not ' if asterisk_status.stdout_lines[0] == 'Unable to connect to remote asterisk (does /var/run/asterisk/asterisk.ctl exist?)' else '' }}running."
+    - name: Get Asterisk status
+      shell: asterisk -rx "core show uptime"
+      register: asterisk_status
     - name: Get active users
       shell: asterisk -rx 'sip show peers'
       register: active_users
     - name: Show list of active users on Asterisk
       debug:
         var: active_users.stdout_lines
-    - name: Get Asterisk status
-      shell: asterisk -rx "core show uptime"
-      register: asterisk_status
-    - name: Print Asterisk status
-      debug:
-        msg: "Asterisk is {{ 'not ' if asterisk_status.stdout_lines[0] == 'Unable to connect to remote asterisk (does /var/run/asterisk/asterisk.ctl exist?)' else '' }}running."
+    

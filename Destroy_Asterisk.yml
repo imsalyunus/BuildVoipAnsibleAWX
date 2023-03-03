@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  user: administrator
+  tasks:
+    - name: Uninstall Asterisk
+      shell: sudo apt-get purge --auto-remove asterisk -y
+      shell: sudo rm -rf /etc/asterisk

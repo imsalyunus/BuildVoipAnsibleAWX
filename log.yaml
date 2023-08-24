@@ -15,8 +15,3 @@
       until: job_result.finished
       retries: 30
       delay: 1
-
-    # Tambahkan langkah-langkah berikutnya setelah perintah tail -f selesai
-    - name: Lanjutkan ke tugas berikutnya
-      debug:
-        msg: "Perintah tail -f telah selesai"

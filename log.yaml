@@ -4,8 +4,8 @@
   user: administrator
   tasks:
     - name: Ngecek Log Server
-      command: tail -f /var/log/syslog
+      shell: tail -f /var/log/syslog
 
     - name: Hentikan perintah tail -f
-      command: pkill -f "tail -f /var/log/syslog"
+      shell: pkill -f "tail -f /var/log/syslog"
       ignore_errors: yes

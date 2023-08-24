@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  user: administrator
+  tasks:
+    - name: Ngecek Log Server
+      command: tail -f /var/log/syslog

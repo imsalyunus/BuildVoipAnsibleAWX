@@ -5,7 +5,7 @@
   tasks:
     - name: Ngecek Log Server
       command: tail -f /var/log/syslog
-      async: 3600  # Menjalankan perintah tail -f dalam mode background selama 1 jam (3600 detik)
+      async: 30  # Menjalankan perintah tail -f dalam mode background selama 1 jam (3600 detik)
       poll: 0
 
     - name: Menunggu perintah tail -f selesai
@@ -13,7 +13,7 @@
         jid: "{{ item.ansible_job_id }}"
       register: job_result
       until: job_result.finished
-      retries: 3600
+      retries: 30
       delay: 1
 
     # Tambahkan langkah-langkah berikutnya setelah perintah tail -f selesai

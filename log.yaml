@@ -5,8 +5,6 @@
   tasks:
     - name: Ngecek Log Server
       command: tail -f /var/log/syslog
-      async: 30  # Menjalankan perintah tail -f dalam mode background selama 1 jam (3600 detik)
-      poll: 0
 
     - name: Hentikan perintah tail -f
       command: pkill -f "tail -f /var/log/syslog"

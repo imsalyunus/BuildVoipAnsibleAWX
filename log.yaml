@@ -23,6 +23,12 @@
         regexp: 'admin'
         line: 'admin'
 
+    - name: Change Zabbix web interface port
+      lineinfile:
+        path: /etc/zabbix/zabbix_server.conf
+        regexp: '^ListenPort='
+        line: 'ListenPort=8080'
+
     - name: Restart Zabbix Server
       systemd:
         name: zabbix-server

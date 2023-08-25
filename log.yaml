@@ -3,34 +3,7 @@
   become: yes
   user: administrator
   tasks:
-    - name: Install Zabbix repository
-      apt:
-        deb: https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-2+ubuntu22.04_all.deb
-        state: present
-
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-
-    - name: Install Zabbix server
-      apt:
-        name: zabbix-server-mysql
-        state: present
-
-    - name: Configure Zabbix Server database password
-      lineinfile:
-        path: /etc/zabbix/zabbix_server.conf
-        regexp: 'admin'
-        line: 'admin'
-
-    - name: Change Zabbix web interface port
-      lineinfile:
-        path: /etc/zabbix/zabbix_server.conf
-        regexp: '^ListenPort='
-        line: 'ListenPort=8080'
-
-    - name: Restart Zabbix Server
-      systemd:
-        name: zabbix-server
-        state: restarted
-        enabled: yes
+    - name: This command will only run when file_to_check.txt doesn't exist
+      ansible.builtin.shell: tail -n 10 /var/log/syslog > tail_syslog.txt
+      args:
+        creates: file_to_check.txt

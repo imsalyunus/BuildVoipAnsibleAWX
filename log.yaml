@@ -9,5 +9,8 @@
         creates: file_to_check.txt
         
     - name: Display list of files in /var/log
-      ansible.builtin.command: cat /home/administrator/Log_day1.txt
-      register: log_files
+      ansible.builtin.command: cd /home/administrator/
+
+    - name: Display list of files in /var/log
+      ansible.builtin.command: cat Log_Day1.txt
+      

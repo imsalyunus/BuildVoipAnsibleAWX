@@ -3,11 +3,69 @@
   become: yes
   user: administrator
   tasks:
-    - name: This command will only run when file_to_check.txt doesn't exist
-      ansible.builtin.shell: tail -n 10 /var/log/syslog >> Log_Day1.txt
-      args:
-        creates: file_to_check.txt
-        
-    - name: Display list of files in /var/log
-      ansible.builtin.command: cat Log_Day1.txt
+    - name: Install required packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - zabbix-server-mysql
+        - zabbix-frontend-php
+        - zabbix-agent
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Configure MySQL database
+      mysql_db:
+        name: zabbix
+        state: present
+        encoding: utf8
+        collation: utf8_bin
+      become: yes
+
+    - name: Configure MySQL user for Zabbix
+      mysql_user:
+        name: zabbix
+        password: your_zabbix_db_password
+        priv: "zabbix.*:ALL"
+        state: present
+      become: yes
+
+    - name: Import Zabbix database schema
+      mysql_db:
+        name: zabbix
+        state: import
+        target: /usr/share/doc/zabbix-server-mysql*/create.sql.gz
+      become: yes
+
+    - name: Configure Zabbix Server
+      lineinfile:
+        dest: /etc/zabbix/zabbix_server.conf
+        regexp: "admin"
+        line: "admin"
+      become: yes
+
+    - name: Configure Zabbix PHP frontend
+      lineinfile:
+        dest: /etc/zabbix/apache.conf
+        regexp: "^php_value date.timezone"
+        line: "php_value date.timezone Asia/Jakarta"  # Example: "php_value date.timezone America/New_York"
+      become: yes
+
+    - name: Enable and start Zabbix services
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+      loop:
+        - zabbix-server
+        - zabbix-agent
+      become: yes
+
+    - name: Reload Apache service
+      systemd:
+        name: apache2
+        state: reloaded
+      become: yes
+
+  tags:
+    - zabbix-install
       

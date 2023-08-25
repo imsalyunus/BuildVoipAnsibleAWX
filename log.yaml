@@ -13,6 +13,12 @@
         - zabbix-agent
       when: ansible_distribution == 'Ubuntu'
 
+    - name: Install PyMySQL module for Python 3
+      pip:
+        name: pymysql
+        executable: python3
+      become: yes
+    
     - name: Configure MySQL database
       mysql_db:
         name: zabbix

@@ -12,46 +12,19 @@
       apt:
         update_cache: yes
 
-    - name: Install Zabbix proxy
+    - name: Install Zabbix server
       apt:
-        name: zabbix-proxy-mysql
+        name: zabbix-server-mysql
         state: present
 
-    - name: Create initial database
-      mysql_db:
-        name: zabbix_proxy
-        state: present
-        collation: utf8_bin
-
-    - name: Create database user
-      mysql_user:
-        name: zabbix
-        password: password
-        priv: 'zabbix_proxy.*:ALL'
-        host: localhost
-        state: present
-
-    - name: Import Zabbix Proxy schema
-      command: zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz | mysql -uzabbix -ppassword zabbix_proxy
-      args:
-        warn: no
-
-    - name: Set global log_bin_trust_function_creators to 1
-      mysql_db:
-        login_user: root
-        login_password: root_password
-        name: zabbix_proxy
-        state: query
-        query: "SET GLOBAL log_bin_trust_function_creators = 1;"
-
-    - name: Configure Zabbix Proxy database password
+    - name: Configure Zabbix Server database password
       lineinfile:
-        path: /etc/zabbix/zabbix_proxy.conf
+        path: /etc/zabbix/zabbix_server.conf
         regexp: 'admin'
         line: 'admin'
 
-    - name: Restart Zabbix Proxy
+    - name: Restart Zabbix Server
       systemd:
-        name: zabbix-proxy
+        name: zabbix-server
         state: restarted
         enabled: yes

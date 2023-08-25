@@ -3,9 +3,44 @@
   become: yes
   user: administrator
   tasks:
-    - name: Ngecek Log Server
-      shell: tail -f /var/log/syslog
+    - name: Update apt cache
+      apt:
+        update_cache: yes
 
-    - name: Hentikan perintah tail -f
-      shell: pkill -f "tail -f /var/log/syslog"
-      ignore_errors: yes
+    - name: Install Zabbix packages
+      apt:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - zabbix-server-mysql
+        - zabbix-frontend-php
+        - zabbix-agent
+
+    - name: Configure Zabbix server
+      template:
+        src: zabbix_server.conf.j2
+        dest: /etc/zabbix/zabbix_server.conf
+      notify: restart zabbix-server
+
+    - name: Configure Zabbix frontend
+      template:
+        src: apache.conf.j2
+        dest: /etc/zabbix/apache.conf
+      notify: restart apache2
+
+    - name: Start Zabbix server
+      service:
+        name: zabbix-server
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: restart zabbix-server
+      service:
+        name: zabbix-server
+        state: restarted
+
+    - name: restart apache2
+      service:
+        name: apache2
+        state: restarted

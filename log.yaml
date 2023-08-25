@@ -3,45 +3,57 @@
   become: yes
   user: administrator
   tasks:
+    - name: Install Zabbix repository
+      apt:
+        deb: https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-2+ubuntu22.04_all.deb
+        state: present
+
     - name: Update apt cache
       apt:
         update_cache: yes
 
-    - name: Install Zabbix packages
+    - name: Install Zabbix proxy
       apt:
-        name: "{{ item }}"
-        state: latest
-      loop:
-        - zabbix-server-mysql
-        - zabbix-frontend-php
-        - zabbix-agent
+        name: zabbix-proxy-mysql
+        state: present
 
-    - name: Configure Zabbix server
-      template:
-        src: zabbix_server.conf.j2
-        dest: /etc/zabbix/zabbix_server.conf
-      become: yes
-      notify: restart zabbix-server
+    - name: Create initial database
+      mysql_db:
+        name: zabbix_proxy
+        state: present
+        collation: utf8_bin
 
-    - name: Configure Zabbix frontend
-      template:
-        src: apache.conf.j2
-        dest: /etc/zabbix/apache.conf
-      notify: restart apache2
+    - name: Create database user
+      mysql_user:
+        name: zabbix
+        password: password
+        priv: 'zabbix_proxy.*:ALL'
+        host: localhost
+        state: present
 
-    - name: Start Zabbix server
-      service:
-        name: zabbix-server
-        state: started
+    - name: Set global log_bin_trust_function_creators
+      mysql_global_variables:
+        name: log_bin_trust_function_creators
+        value: '1'
+
+    - name: Import Zabbix Proxy schema
+      command: zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz | mysql -uzabbix -ppassword zabbix_proxy
+      args:
+        warn: no
+
+    - name: Disable log_bin_trust_function_creators option
+      mysql_global_variables:
+        name: log_bin_trust_function_creators
+        value: '0'
+
+    - name: Configure Zabbix Proxy database password
+      lineinfile:
+        path: /etc/zabbix/zabbix_proxy.conf
+        regexp: '^DBPassword='
+        line: 'DBPassword=password'
+
+    - name: Restart Zabbix Proxy
+      systemd:
+        name: zabbix-proxy
+        state: restarted
         enabled: yes
-
-  handlers:
-    - name: restart zabbix-server
-      service:
-        name: zabbix-server
-        state: restarted
-
-    - name: restart apache2
-      service:
-        name: apache2
-        state: restarted

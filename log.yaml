@@ -31,26 +31,24 @@
         host: localhost
         state: present
 
-    - name: Set global log_bin_trust_function_creators
-      mysql_global_variables:
-        name: log_bin_trust_function_creators
-        value: '1'
-
     - name: Import Zabbix Proxy schema
       command: zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz | mysql -uzabbix -ppassword zabbix_proxy
       args:
         warn: no
 
-    - name: Disable log_bin_trust_function_creators option
-      mysql_global_variables:
-        name: log_bin_trust_function_creators
-        value: '0'
+    - name: Set global log_bin_trust_function_creators to 1
+      mysql_db:
+        login_user: root
+        login_password: root_password
+        name: zabbix_proxy
+        state: query
+        query: "SET GLOBAL log_bin_trust_function_creators = 1;"
 
     - name: Configure Zabbix Proxy database password
       lineinfile:
         path: /etc/zabbix/zabbix_proxy.conf
-        regexp: '^DBPassword='
-        line: 'DBPassword=password'
+        regexp: 'admin'
+        line: 'admin'
 
     - name: Restart Zabbix Proxy
       systemd:

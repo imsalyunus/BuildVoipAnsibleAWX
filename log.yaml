@@ -4,6 +4,6 @@
   user: administrator
   tasks:
     - name: This command will only run when file_to_check.txt doesn't exist
-      ansible.builtin.shell: tail -n 10 /var/log/syslog > tail_syslog.txt
+      ansible.builtin.shell: tail -n 10 /var/log/syslog >> Log_Day1.txt
       args:
         creates: file_to_check.txt

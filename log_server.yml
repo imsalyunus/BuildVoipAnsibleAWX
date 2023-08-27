@@ -3,7 +3,7 @@
   become: yes
   user: upb
   tasks:
-    - name: This command will only run when file_to_check.txt doesn't exist
+    - name: Menyimpan log server pada saat tanggal saat ini
       ansible.builtin.shell: tail -n 999999999999999 /var/log/syslog | grep "$(date + '%b %d')"
  >> "Log_$(date +'%Y%m%d').txt"
       args:

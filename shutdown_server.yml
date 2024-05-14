@@ -4,4 +4,4 @@
   become: yes
   tasks:
     - name: Poweroff server
-      ansible.builtin.command: sudo poweroff
+      ansible.builtin.command: uptime

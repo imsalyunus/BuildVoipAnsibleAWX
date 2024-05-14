@@ -1,6 +1,6 @@
 ---
 - name: Server 1
-  hosts: GroupA
+  hosts: 192.168.1.15
   become: yes
   tasks:
     - name: Poweroff server
